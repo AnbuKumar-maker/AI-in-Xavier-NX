@@ -1,0 +1,91 @@
+                                        Steps To Install NVIDIA Object Detection Trained Model
+
+Step 1: Run the below commands in terminal one after another
+
+sudo apt-get install git cmake libpython3-dev python3-numpy
+
+cd Downloads
+
+cd ~/Downloads
+
+git clone --recursive https://github.com/dusty-nv/jetson-inference
+
+ls
+
+cd jetson-inference
+
+mkdir build
+
+ls
+
+cd build
+
+cmake ../
+
+
+Step 2: After the cmake command, in about 10 minutes a window will pop up asking to download “Model Downloader”
+
+Step 3: Select the models using Space Bar and click OK
+
+Step 4: After 20 mins, window will pop up asking to install PyTorch, select Python 3.6 and click ok to install
+
+Step 5: Under the same directories as above /Downloads/jetson-inference/build$  run the below command
+
+make -j$(nproc)
+
+sudo make install
+
+sudo ldconfig
+
+Step 6: To run USB Webcam, need to install a utility software, run the below command
+
+sudo apt-get install v4l-utils
+
+python3
+
+import torch 
+import torchvision
+
+
+
+press ctrl + d
+
+
+Step 7: Go to home directory by using below command one by one
+
+cd ~
+
+v4l2-ctl -d /dev/video1 –list-formats-ext
+
+(Now you can see various parameters for webcam)
+
+Step 8: Now, you need to write few lines of Python code to execute GoogleNet object detection model, write the below code in the IDE, then right click, run python file in terminal.
+
+import jetson.inference
+import jetson.utils
+
+cam=jetson.utils.gstCamera(640,480,'/dev/video1')
+disp=jetson.utils.glDisplay()
+font=jetson.utils.cudaFont()
+#net=jetson.inference.detectNet('ssd-mobilenet-v2',threshold=.5)
+net=jetson.inference.imageNet('googleNet')
+
+while disp.IsOpen():
+	frame, width, height=cam.CaptureRGBA()
+	classID, confident=net.Classify(frame, width, height)
+	item=net.GetClassDesc(classID)
+	font.OverlayText(frame, width, height, item, 5,5, font.Magenta, font.Blue)
+	disp.RenderOnce(frame, width, height)
+
+
+
+
+
+
+
+
+
+
+
+
+
