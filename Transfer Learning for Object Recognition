@@ -1,0 +1,80 @@
+Step 1 – To allocate memory in Jetson Nano, run the below commands
+
+sudo fallocate -l 4G mnt/4GB.swap
+
+sudo mkswap mnt/4GB.swap
+
+sudo swapon mnt/4GB.swap
+
+Step 2 – Need to edit a system file, run the below commands
+
+sudo gedit (/)etc(/)fstab
+
+Step 3 – Text file will open up after executing the above command, in the text file, add the below at the bottom most line
+
+(/)mnt(/)4GB.swap none swap SW 0 0
+
+Step 4 – Run the below commands to create a training data folder
+
+cd Downloads
+
+ls
+
+cd jetson-inference
+
+ls
+
+mkdir myTrain
+
+cd myTrain
+
+gedit labels.txt
+
+Step 5 – Above command will open a blank text file in which you need to mention the names of the objects to be trained to recognize in alphatical order and save the file
+
+
+
+
+
+
+Step 4 – Run the below command, To open the camera and utils, capture the images. Take 100 photos for training folder, Take 20 photos for validation folder, Take 10 photos for test folder
+
+cd ~
+
+cd Downloads
+
+ls
+
+cd jetson-inference
+
+cd tools
+
+ls
+
+camera-capture –width=800 –height=600 --camera=/dev/video0
+
+
+
+Step 5 – To train the images
+
+cd ~/Downloads/jetson-inference
+
+ls
+
+cd python
+
+ls
+
+cd training
+
+ls
+
+cd classification
+
+ls
+
+python3 train.py --model-dir=myModel ~/Downloads/jetson-inference/myTrain
+
+ls
+
+python3 onnx_export.py --model-dir=myModel
