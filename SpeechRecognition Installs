@@ -1,0 +1,10 @@
+Step 1 - Run the following commands one by one to install the below packages
+
+sudo pip3 install wikipedia
+sudo pip3 install pyautogui
+sudo pip3 install psutil
+sudo pip3 install pyttsx3
+sudo pip3 install speechRecognition
+
+Step 2 - Write the below Python code
+
