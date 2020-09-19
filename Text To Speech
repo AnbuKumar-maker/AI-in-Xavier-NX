@@ -1,0 +1,6 @@
+import os
+from gtts import gTTS
+myText='Hello RoboThoughts'
+myOutput=gTTS(text=myText, lang='en', slow=False)
+myOutput.save('talk.mp3')
+os.system('mpg123 talk.mp3')
